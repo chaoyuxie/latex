@@ -68,7 +68,7 @@ more robust on small overlapped region. Experimental results show that our appro
 \end{abstract}
 
 \begin{IEEEkeywords}
-Video stitching, panorama, overlap, edge detection
+video stitching, panorama, overlap, edge detection
 \end{IEEEkeywords}
 
 \section{Introduction}
@@ -112,10 +112,10 @@ Fig. \ref{fig:res} shows the video stitching process presented in this paper.
 \begin{figure*}
 \centering
 \includegraphics[scale=0.54]{picture44.png}
-\caption{The pipeline of our video stitching algorithm. First, we pre-process the video data, such as calibrate the camera
-and project the video frame into spherical coordinates. Second, we detect the edge of each spherically
+\caption{The pipeline of our video stitching algorithm. First, we pre-process the video data, such as calibrating the camera
+and projecting the video frame into spherical coordinates. Second, we detect the edge of each spherically
 warped frame and re-calculate
-homegraphy matrix in every grid. Third, update seam and stitch the videos to produce a panoramic video.}
+homegraphy matrix in every grid. Third, updating seam and stitching the videos to produce a panoramic video.}
 \label{fig:res}
 \end{figure*}
 
@@ -179,14 +179,10 @@ The third step is stitching them into a panoramic video according to the spatial
 \label{ssec:Pre-prepared}
 Pre-process for video stitching composes of two parts, the one is calculating the parameters of the cameras, the other is projecting the video into a new coordinate
 system. The parameters of a camera consist intrinsics and extrinsics. 
-%Because the camera is fixed on a tripod, we can easily calculate the extrinsics of the cameras. 
 According to \cite{zhang2000flexible}, we calculate the intrinsics and extrinsics of the cameras.
 Then video can be projected into spherical coordinate system.
-%Denote the origin video as $F_g$, and the projected video as $F$, 
 Let $\textbf{x} = [x \ y]^T$ be the point of spherically
-warped frame $F$ and $\hat{\textbf{x}'} = [\hat{x}' \ \hat{y}']^T$ be the point of corrected frame $F_g$.
-%And denote $\hat{\textbf{x}}' = [\hat{x}' \ \hat{y}' \ \hat{z}']^T$ to be the spherical coordinates. Because the frames should be projected into the same coordinate system, the $\hat{\textbf{x}}'$
-%should be multiplied extrinsics matrix. 
+warped frame $F$ and $\hat{\textbf{x}}' = [\hat{x}' \ \hat{y}']^T$ be the point of corrected frame $F_g$.
 The relationship between $F$ and $F_g$ can be described as following equation:
 \begin{equation}
 \begin{aligned}
@@ -210,9 +206,8 @@ warped frame.
 \end{figure}
 \subsection{Edge Detection and Points Matching}
 \label{ssec:edge-detection}
-%After we got the projected frame, we can 
-Because the overlapped region is small, we can not match the feature points correctly. Although we got the spherically warped frame, we still can not 
-match the feature points correctly because of the complicated scenes we captured. Under this condition, we propose to detect its edge and then match points according to the edge.
+Because the overlapped region is small, we can not match the feature points correctly. Although we got the spherically warped frame, the feature points can not be
+matched correctly because of the complicated scenes we captured. Under this condition, we propose to detect its edge and then match points according to the edge.
 We use a matured method which is called holistically-nested edge detection (HED) \cite{xie2015holistically}. After we got the edge of each frame, we mesh every frame into $m \times n$
 girds. In the overlapped region, it can be easily to match the points after detecting its edge. Let $\textbf{a} = [i \ j]^T$ and $\textbf{a}' = [i' \ j']^T$ be matching points
 across overlapping frames $F_l$ and $F_r$. A projective warp or homegraphy aims to map $\textbf{a}$ to $\textbf{a}'$ following the relation:
@@ -245,18 +240,16 @@ warped frame, (b) shows the grids in each frames, (c) shows the new edge produce
 \subsection{Seam Updating and Stitching}
 \label{ssec:stitching}
 
-%After we got the edge frame, we can 
 Using the method we proposed in Sec. \ref{ssec:Pre-prepared} and Sec. \ref{ssec:edge-detection}, the structure of buildings in the video can be preserved. However, when there is a moving object
 through the overlapped region, there may exist ghosts in the panoramic video. 
-%To obtain final panoramic video, we transform input videos by the estimated stitching and stabilization variables. 
 In the overlapping region, background is stitched using the method we proposed in Sec. \ref{ssec:edge-detection}, but not surprisingly, 
 foreground objects have ghost artifacts, especially when there is an object moving through the overlapped region. To stitch the
 two videos seamlessly, we adopt the overlaying strategy as in \cite{he2016parallax}. Firstly, we search a seam in the overlapping region according to our homegraphy matrices which was calculated in \ref{ssec:edge-detection}.
 Secondly, use $\widetilde{g}_{i0}$ as the original gradient of pixel $p_i$ in the present seam, and use $\widetilde{g}_{it}$ as the gradient of pixel $p_i$ in time $t$. To calculate whether the gradient
 of pixels have a big change, we use the following rule:
-$$
+\begin{equation}
 \textit{C}_{t}=\{p_{i}|\frac{\widetilde{g}_{it}-\widetilde{g}_{i0}}{\widetilde{g}_{i0}}>\sigma\}
-$$
+\end{equation}
 where $\sigma$ is a const, $\textit{N}_{cd}$ is depended on the total pixel number of the seam. If the total pixel number in $\textit{C}_t$ is bigger than $\textit{N}_{cd}$, we think that there is an object moving through the overlapped region, and then, the seam will be updated.
 Finally, to stitch the video well, we use graphcut algorithm \cite{boykov2004experimental} to stitch the frames which have no object moving through the overlapped region. And the others used linear blending method.
 Fig \ref{fig:p24} shows the method.
@@ -277,7 +270,6 @@ video which we captured.  The video datasets are captured by six fixed cameras (
 These videos are both captured by same type cameras and they are 1440p (1920 $\times$ 1440) at 24 fps.
 Because the overlapped region is very small, lots of method we listed in Sec. \ref{sec:related} failed to stitch them together.
 The compared methods include APAP and commercial software AutoPano. The video data used in APAP method in this paper was pre-processed. We compare the result as image stitching on each frame firstly.
-%Fig. \ref{fig:pic14} shows the result between AutoPano and ours. 
 We randomly select one frame on image stitching. Fig. \ref{fig:pic17} shows the result of APAP, AutoPano and ours. 
 From Fig. \ref{fig:pic17} we can see the result of APAP 
 destroys the structure of building severely, such as the pillar and the light. There are severe ghost around pillar and light.
@@ -328,9 +320,9 @@ And then we calculated MOS for each method. Table \ref{tab1:table1} shows the co
 \section{CONCLUSION}
 \label{sec:conclusion}
 
-In this paper, we proposed a new method to stitch video which have a small overlapped region. We pre-process the video data, such as calibrate the camera and project the video frame into spherical
-spherical coordinates. We detect the edge of each spherically warped frame and re-calculate homegraphy matrix in every grid. Using the time domain information to produce a panoramic video. 
-Experimental results show that our approach achieves a better panoramic video than state-of-the-art ones. Our algorithm improve image alignment accuracy and reducing artifacts caused by
+In this paper, we proposed a new method to stitch video which have a small overlapped region. We pre-process the video data, such as calibrating the camera and projecting the video frame into spherical
+spherical coordinates. We detect the edge of each spherically warped frame and re-calculate homegraphy matrix in every grid. Using the time domain information to produce panoramic videos. 
+Experimental results show that our approach achieves a better panoramic video than state-of-the-art ones. Our algorithm improves image alignment accuracy and reduces artifacts caused by
 moving objects. In the future, we would like to speed up our algorithm.
 
 \bibliographystyle{IEEEbib}
