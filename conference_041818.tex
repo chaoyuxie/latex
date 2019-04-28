@@ -154,7 +154,7 @@ fixed cameras \cite{zheng2008stitching, he2010panoramic, Jiang_2015_CVPR_Worksho
 and moving cameras \cite{lin2016seamless, guo2016joint, nie2018dynamic}. In the fixed cameras category, 
 Zheng \textit{et al.} stitched the videos frame by frame just like image stitching \cite{zheng2008stitching}.
 Jiang \textit{et al.} proposed spatial-temporal content-preserving warping (STCPW) to eliminate small deviations \cite{Jiang_2015_CVPR_Workshops}.
-In the moving cameras category, Lin \textit{et al.} proposed a method which is for independently moved mobile devices.
+In the moving cameras category, Lin \textit{et al.} proposed a method which is designed for independently moved mobile devices.
 They recovered the 3D camera paths and a sparse set of 3D scene points to stitching videos \cite{lin2016seamless}.
 Guo \textit{et al.} calculated both inter motions and intra motions, then calculated the camera path, and finally stitching them together \cite{guo2016joint}.
 Nie \textit{et al.} which was similarly to \cite{guo2016joint} but could distinguish between right
@@ -177,7 +177,7 @@ The third step is stitching them into a panoramic video according to the spatial
 Pre-process for video stitching composes of two parts, the one is calculating the parameters of the cameras, the other is projecting videos into a new coordinate
 system. The parameters of a camera consist intrinsics and extrinsics. 
 According to \cite{zhang2000flexible}, we calculate the intrinsics and extrinsics of the cameras. And the original videos can be calibrated.
-Then corrected frames can be projected into spherical coordinate system.
+Then the corrected frames can be projected into spherical coordinate system.
 Let $\textbf{x} = [x \ y]^T$ be the point of spherically
 warped frame $F$ and $\hat{\textbf{x}}' = [\hat{x}' \ \hat{y}']^T$ be the point of corrected frame $F_g$.
 The relationship between $F$ and $F_g$ can be described as following equation:
@@ -210,7 +210,7 @@ across overlapping frames $F_l$ and $F_r$. A projective warp or homegraphy aims 
 \begin{equation}
 \widetilde{\textbf{a}}'=\textbf{H}\widetilde{\textbf{a}}
 \end{equation}
-where $\widetilde{\textbf{a}}$ is $\textbf{a}$ in homogeneous coordinates, and $\textbf{H}\in\mathbb{R}^{3 \times 3}$ defines the homegraphy. In the overlapped region,
+where $\widetilde{\textbf{a}}'$ is $\textbf{a}$ in homogeneous coordinates, and $\textbf{H}\in\mathbb{R}^{3 \times 3}$ defines the homegraphy. In the overlapped region,
 we can detect its nearest neighbor point as its matching point. Then calculate the homegraphy matrix in each grid. According to the matrix, the points can be projected to the correct region.
 However, there maybe some grids that have no points, we can calculate the homegraphy matrix according to its four neighbor grids. Let $\textbf{H}_i$ be the homegraphy matrix in grid $i$.
 The $\textbf{H}_{i}$ can be calculated as following if there is no points are detected:
@@ -238,13 +238,14 @@ warped frame, (b) shows the grids in each frames, (c) shows the new edge produce
 
 Using the method we proposed in Sec. \ref{ssec:Pre-prepared} and Sec. \ref{ssec:edge-detection}, the structure of buildings in the video can be preserved. However, when there is a moving object
 through the overlapped region, there may exist ghosts in the panoramic video. 
-In the panoramic frame, static objects can be stitched very well using the method we proposed in Sec. \ref{ssec:edge-detection}, 
-but ghosts will produce when there is an object moving through the overlapped region. To stitch the videos seamlessly,
-we adopt the overlaying strategy as in \cite{he2016parallax}. Firstly, we search a seam in the overlapped region according to our homegraphy matrices which was calculated in \ref{ssec:edge-detection}.
-Secondly, using $\widetilde{g}_{i0}$ as the original gradient of pixel $p_i$ in the present seam, and then using $\widetilde{g}_{it}$ as the gradient of pixel $p_i$ in time $t$. 
+%In the panoramic frame, static objects can be stitched very well using the method we proposed in Sec. \ref{ssec:edge-detection}, 
+%but ghosts will produce when there is an object moving through the overlapped region. 
+To stitch the videos seamlessly, we adopt the overlaying strategy as in \cite{he2016parallax}. 
+Firstly, we search a seam in the overlapped region according to our homegraphy matrices which was calculated in \ref{ssec:edge-detection}.
+Secondly, using $g_{i0}$ as the original gradient of pixel $p_i$ in the present seam, and then using $g_{it}$ as the gradient of pixel $p_i$ in time $t$. 
 To calculate whether the gradient of pixels have a big change, we use the following rule:
 \begin{equation}
-\textit{C}_{t}=\{p_{i}|\frac{\widetilde{g}_{it}-\widetilde{g}_{i0}}{\widetilde{g}_{i0}}>\sigma\}
+\textit{C}_{t}=\{p_{i}|\frac{g_{it}-g_{i0}}{g_{i0}}>\sigma\}
 \end{equation}
 where $\sigma$ is a const, $\textit{N}_{cd}$ is depended on the total pixel number of the seam. If the total pixel number in $\textit{C}_t$ is bigger than $\textit{N}_{cd}$, 
 we think that there is an object moving through the overlapped region, and then, the seam will be updated. Finally, to stitch the video well, 
@@ -270,15 +271,15 @@ Because the overlapped region is very small, lots of method we listed in Sec. \r
 The compared methods include APAP and commercial software AutoPano. The video data used in APAP method in this paper was pre-processed. We compare the result as image stitching on each frame firstly.
 We randomly select one frame on image stitching. Fig. \ref{fig:pic17} shows the result of APAP, AutoPano and ours. 
 From Fig. \ref{fig:pic17} we can see the result of APAP 
-destroys the structure of building severely, such as the pillar and the light. There are severe ghosts around pillar and light.
+destroys the structure of buildings severely, such as the pillar and the light. There are severe ghosts around pillar and light.
 As for commercial software, it also can not stitch the image well, such as the pillar have ghosts and the structure of light breaks from the middle, 
 but our method keeps the structure well, and has less ghost than the others.
 
 For comparison of moving object through overlapped region, we compare the result of APAP, AutoPano and ours. Fig. \ref{fig:pic15} 
 illustrates frames where an object is moving through the overlapped region and the background remains still. 
 We select three consecutive frames for comparison. In Fig. \ref{fig:pic15}, APAP and AutoPano have severe ghosts around the walking person in the panoramic video. 
-The man’s body is distorted in AutoPano method. However, using our proposed method, the man's body is kept well. 
-Fig. ~\ref{fig:more1}, Fig. ~\ref{fig:more2} show more comparison of our method and the others.
+The man's body is distorted in AutoPano method. However, using our proposed method, the man's body is kept well. 
+Fig. ~\ref{fig:more1}, Fig. ~\ref{fig:more2} show more comparisons of our method and others.
 \begin{table}[!htpb]
 \caption{MOS of three algorithms}
 \label{tab1:table1}
@@ -307,7 +308,7 @@ detail in frame $t_1$, (c) enlarged views of local detail in frame $t_2$, (d) en
 \end{figure}
 
 In order to evaluate the performance of our algorithm, we made a user test interface. The interface shows the results of APAP, AutoPano and our method simultaneously.
-We use Mean opinion score (MOS) to evaluate the panoramic video. We use 1-10, 10 integers to represent the quality of the video, 
+We use mean opinion score (MOS) to evaluate the panoramic video. We use 1-10, 10 integers to represent the quality of the video, 
 1 represents the worst quality of the video, 10 represents the best quality of the video, and the method of calculating MOS is as follows:
 \begin{equation}
 {\rm MOS}=\frac{\sum^{N}_{n=1}{R_n}}{N}
