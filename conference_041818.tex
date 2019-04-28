@@ -95,10 +95,10 @@ cameras is still small. Stitching such six videos is very challenging due to two
 major reasons: (1) the captured videos have small overlap that the feature points can not be matched correctly 
 and (2) the structure of buildings in the panoramic video could have ghosts.
 To deal with this problem, we proposed a new method which can handle the problem that we have listed above.
-Different from the period work \cite{Jiang_2015_CVPR_Workshops}, we mainly focus on video stitching which has a small overlapping area.
+Different from the period work \cite{Jiang_2015_CVPR_Workshops}, we mainly focus on video stitching which has a small overlapped area.
 Our algorithm first calculates the parameters of the cameras, and then projects
 the videos into sphere. We extract the edge of each video, and according to the edge we mesh these videos into grids frame by frame.
-And calculating the homegraphy matrix of each gird. Finally, we update seam and produce a panoramic video.
+And then calculating the homegraphy matrix of each gird. Finally, we update seam and produce a panoramic video.
 Fig. \ref{fig:res} shows the video stitching process presented in this paper.
 
 \begin{figure}[t]
@@ -148,7 +148,7 @@ minimum energy seam to stitch large-parallax images \cite{zhang2014parallax}.
 In addition, several freewares and commercial softwares are available for performing image stitching, such as 
 AutoStitch, Microsoft’s Image Compositing Editor, and Adobe's Photoshop CS6.\\
 {\bf Video Stitching}. Compared to image stitching, video stitching received much less attention. 
-The main challenges are the moving objects in overlapped regions are difficult to handle and the complexity of the video stitching algorithm is too high.
+The main challenges are (1) the moving objects in overlapped regions are difficult to handle and (2) the complexity of the video stitching algorithm is too high.
 Different approaches have been proposed for different camera settings. In general, these can be divided into two categories: 
 fixed cameras \cite{zheng2008stitching, he2010panoramic, Jiang_2015_CVPR_Workshops, perazzi2015panoramic, li2015efficient} 
 and moving cameras \cite{lin2016seamless, guo2016joint, nie2018dynamic}. In the fixed cameras category, 
@@ -174,10 +174,10 @@ The third step is stitching them into a panoramic video according to the spatial
 
 \subsection{Pre-process For Video Stitching}
 \label{ssec:Pre-prepared}
-Pre-process for video stitching composes of two parts, the one is calculating the parameters of the cameras, the other is projecting the video into a new coordinate
+Pre-process for video stitching composes of two parts, the one is calculating the parameters of the cameras, the other is projecting videos into a new coordinate
 system. The parameters of a camera consist intrinsics and extrinsics. 
 According to \cite{zhang2000flexible}, we calculate the intrinsics and extrinsics of the cameras. And the original videos can be calibrated.
-Then videos can be projected into spherical coordinate system.
+Then corrected frames can be projected into spherical coordinate system.
 Let $\textbf{x} = [x \ y]^T$ be the point of spherically
 warped frame $F$ and $\hat{\textbf{x}}' = [\hat{x}' \ \hat{y}']^T$ be the point of corrected frame $F_g$.
 The relationship between $F$ and $F_g$ can be described as following equation:
@@ -192,8 +192,7 @@ x'=sin\theta cos\varphi, y'&=sin\varphi, z'=cos\theta sin\varphi \\
 \end{equation}
 where $\textbf{R}$ stands for the extrinsics matrix, $x_c$ and $y_c$ stands for the center of $F$, $f$ stands for the focal length of the camera.
 Fig \ref{fig:ori_cal_pro} shows the origin frame, 
-corrected frame and spherically
-warped frame. 
+corrected frame and spherically warped frame. 
 
 \begin{figure}[t]
 \centering
@@ -222,13 +221,13 @@ where $\textbf{H}_{il}$,
 $\textbf{H}_{ir}$, 
 $\textbf{H}_{iu}$, 
 $\textbf{H}_{id}$ 
-denote four neighbor homegraphy matrices of grid 
-$i$.
+denote four neighbor homegraphy matrices of grid $i$.
 Fig. \ref{fig:p8} illustrates the method we proposed.
 \begin{figure}[!htpb]
 \centering
 \includegraphics[scale=0.22]{picture41.png}
-\caption{First, the spherically warped frame will be detected by HED \cite{xie2015holistically}, and the edge detected frame mesh into $m \times n$ grids, then the overlapped region calculated its homegraphy matrix in grid $i$.
+\caption{First, the edge of spherically warped frame will be detected by HED \cite{xie2015holistically}, and the edge detected frame mesh into $m \times n$ grids, 
+then the overlapped region calculated its homegraphy matrix in grid $i$.
 Finally, a new frame combined with two edge detected frames will be produced. (a) depicts the spherically
 warped frame, (b) shows the grids in each frames, (c) shows the new edge produced by (b).}
 \label{fig:p8}
@@ -240,15 +239,15 @@ warped frame, (b) shows the grids in each frames, (c) shows the new edge produce
 Using the method we proposed in Sec. \ref{ssec:Pre-prepared} and Sec. \ref{ssec:edge-detection}, the structure of buildings in the video can be preserved. However, when there is a moving object
 through the overlapped region, there may exist ghosts in the panoramic video. 
 In the panoramic frame, static objects can be stitched very well using the method we proposed in Sec. \ref{ssec:edge-detection}, 
-but ghosts will be produced when there is an object moving through the overlapped region. To stitch the videos seamlessly,
-we adopt the overlaying strategy as in \cite{he2016parallax}. Firstly, we search a seam in the overlapping region according to our homegraphy matrices which was calculated in \ref{ssec:edge-detection}.
+but ghosts will produce when there is an object moving through the overlapped region. To stitch the videos seamlessly,
+we adopt the overlaying strategy as in \cite{he2016parallax}. Firstly, we search a seam in the overlapped region according to our homegraphy matrices which was calculated in \ref{ssec:edge-detection}.
 Secondly, using $\widetilde{g}_{i0}$ as the original gradient of pixel $p_i$ in the present seam, and then using $\widetilde{g}_{it}$ as the gradient of pixel $p_i$ in time $t$. 
 To calculate whether the gradient of pixels have a big change, we use the following rule:
 \begin{equation}
 \textit{C}_{t}=\{p_{i}|\frac{\widetilde{g}_{it}-\widetilde{g}_{i0}}{\widetilde{g}_{i0}}>\sigma\}
 \end{equation}
 where $\sigma$ is a const, $\textit{N}_{cd}$ is depended on the total pixel number of the seam. If the total pixel number in $\textit{C}_t$ is bigger than $\textit{N}_{cd}$, 
-we think that there is an object moving through the overlapped region, and then, the seam will be updated.Finally, to stitch the video well, 
+we think that there is an object moving through the overlapped region, and then, the seam will be updated. Finally, to stitch the video well, 
 we use graphcut algorithm \cite{boykov2004experimental} to stitch the frames which have no object moving through the overlapped region. 
 And the others used linear blending method.
 Fig \ref{fig:p24} shows the method.
@@ -278,7 +277,8 @@ but our method keeps the structure well, and has less ghost than the others.
 For comparison of moving object through overlapped region, we compare the result of APAP, AutoPano and ours. Fig. \ref{fig:pic15} 
 illustrates frames where an object is moving through the overlapped region and the background remains still. 
 We select three consecutive frames for comparison. In Fig. \ref{fig:pic15}, APAP and AutoPano have severe ghosts around the walking person in the panoramic video. 
-The man’s body is distorted in AutoPano method. However, using our proposed method, the man's body is kept well. Fig. ~\ref{fig:more1}, Fig. ~\ref{fig:more2} show more comparison of our method and the others.
+The man’s body is distorted in AutoPano method. However, using our proposed method, the man's body is kept well. 
+Fig. ~\ref{fig:more1}, Fig. ~\ref{fig:more2} show more comparison of our method and the others.
 \begin{table}[!htpb]
 \caption{MOS of three algorithms}
 \label{tab1:table1}
@@ -310,11 +310,11 @@ In order to evaluate the performance of our algorithm, we made a user test inter
 We use Mean opinion score (MOS) to evaluate the panoramic video. We use 1-10, 10 integers to represent the quality of the video, 
 1 represents the worst quality of the video, 10 represents the best quality of the video, and the method of calculating MOS is as follows:
 \begin{equation}
-{\rm{MOS}}=\frac{\sum^{N}_{n=1}{R_n}}{N}
+{\rm MOS}=\frac{\sum^{N}_{n=1}{R_n}}{N}
 \end{equation}
 where $N$ stands for the number of people scoring each method and $R_n$ stands for a user's score for each type of video. We take $N=250$ in this experiment.
 In the user study, 50 users use interface to score the videos. The videos show on the interface according to the rules: (1) the video groups were random and 
-(2) the display order of the three methods of one video group was also random.
+(2) the display order of three methods of one video group was also random.
 And then we calculated MOS for each method. Table \ref{tab1:table1} shows the comparison. The MOS of our method is much higher than the others.
 
 \section{CONCLUSION}
