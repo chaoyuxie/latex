@@ -62,8 +62,7 @@ xjchen99@ustc.edu.cn}
 \begin{abstract}
 Video stitching remains a challenging problem in computer vision. In this paper, we propose a novel method to stitch multiple videos which have a small overlapped region.
 The algorithm consists of three steps: (1) calibrating the camera and projecting the video frame into spherical coordinates. (2) detecting the edges of each spherically
-warped frame 
-and calculating homegraphy matrix in each grid. (3) updating seam and stitching the origin videos to produce panoramic videos. The proposed method has proven to be
+warped frame and calculating homegraphy matrix in each grid. (3) updating seam and stitching the origin videos to produce panoramic videos. The proposed method has proven to be
 more robust on small overlapped region. Experimental results show that our approach achieves better panoramic videos than state-of-the-art ones.
 \end{abstract}
 
@@ -97,8 +96,8 @@ major reasons: (1) the captured videos have small overlap that the feature point
 and (2) the structure of buildings in the panoramic video could have ghost.
 To deal with this problem, we proposed a new method which can handle the problem that we have listed above.
 Different from the period work \cite{Jiang_2015_CVPR_Workshops}, we mainly focus on video stitching which has a small overlapping area.
-Our algorithm first calculate the parameters of the cameras, and then project
-the videos into sphere. We extract the edge of each video, and according to the edge we mesh these video into grids frame by frame.
+Our algorithm first calculates the parameters of the cameras, and then projects
+the videos into sphere. We extract the edge of each video, and according to the edge we mesh these videos into grids frame by frame.
 And calculating the homegraphy matrix of each gird. Finally, we update seam and produce a panoramic video.
 Fig. \ref{fig:res} shows the video stitching process presented in this paper.
 
@@ -123,7 +122,7 @@ homegraphy matrix in every grid. Third, updating seam and stitching the videos t
 \label{sec:related}
 
 In this section, we briefly review the most related works in image stitching and video stitching.\\
-{\bf Image Stitching}: Image stitching is a well-studied, yet still active research 
+{\bf Image Stitching}. Image stitching is a well-studied, yet still active research 
 area in \cite{paragios2006handbook, brown2007automatic,hartley2003multiple,lin2011smoothly, chang2014shape, zaragoza2013projective,lin2015adaptive,zhang2014parallax, gao2013seam, agarwala2004interactive,gao2011constructing}. 
 Early methods adopted a single homegraphy to align images. The single homegraphy 
 is valid only when the camera rotates around its optical center or the scene captured 
@@ -146,20 +145,18 @@ proposed photomontage that composites a photograph by
 cutting and stitching multiple photographes seamlessly \cite{agarwala2004interactive},
 while Zhang and Liu looked for a homography that leads to a
 minimum energy seam to stitch large-parallax images \cite{zhang2014parallax}.
-In addition, several freewares and commercial softwares are available for performing image stitching.
-AutoStitch, Microsoft’s Image Compositing Editor, and Adobe's Photoshop CS6 mosaicing feature.\\
-{\bf Video Stitching}: Compared to image stitching, video stitching received much less attention. 
+In addition, several freewares and commercial softwares are available for performing image stitching, such as 
+AutoStitch, Microsoft’s Image Compositing Editor, and Adobe's Photoshop CS6.\\
+{\bf Video Stitching}. Compared to image stitching, video stitching received much less attention. 
 The main challenges are the moving objects in overlapped regions are difficult to handle and the complexity of the video stitching algorithm is too high.
 Different approaches have been proposed for different camera settings. In general, these can be divided into two categories: 
 fixed cameras \cite{zheng2008stitching, he2010panoramic, Jiang_2015_CVPR_Workshops, perazzi2015panoramic, li2015efficient} 
 and moving cameras \cite{lin2016seamless, guo2016joint, nie2018dynamic}. In the fixed cameras category, 
 Zheng \textit{et al.} stitched the videos frame by frame just like image stitching \cite{zheng2008stitching}.
 Jiang \textit{et al.} proposed spatial-temporal content-preserving warping (STCPW) to eliminate small deviations \cite{Jiang_2015_CVPR_Workshops}.
-In the moving cameras category, 
-Lin \textit{et al.} proposed a method which is for independently moved mobile devices.
+In the moving cameras category, Lin \textit{et al.} proposed a method which is for independently moved mobile devices.
 They recovered the 3D camera paths and a sparse set of 3D scene points to stitching videos \cite{lin2016seamless}.
-Guo \textit{et al.} calculated both inter
-motions and intra motions, then calculated the camera path, and finally stitching them together \cite{guo2016joint}.
+Guo \textit{et al.} calculated both inter motions and intra motions, then calculated the camera path, and finally stitching them together \cite{guo2016joint}.
 Nie \textit{et al.} which was similarly to \cite{guo2016joint} but could distinguish between right
 and false matches \cite{nie2018dynamic}. All these works have one thing in common, that
 is the overlap between the cameras is large. Under this condition, stitching 
@@ -170,7 +167,7 @@ which have a very small overlap between the cameras.
 \label{sec:ourmethod}
 
 Fig. \ref{fig:res} shows the pipeline of our video stitching algorithm.
-The first step of our algorithm is calculating the parameters of the cameras, and projecting the origin video into a spherical coordinate system frame by frame, 
+The first step of our algorithm is calculating the parameters of the cameras, and projecting the origin videos into a spherical coordinate system frame by frame, 
 see details in Sec. \ref{ssec:Pre-prepared}. The second step is extracting the edges on every frame and meshing the frame into grid and calculating homegraphy matrix in each grid. 
 Then matching the points in overlapped region which is described in Sec. \ref{ssec:edge-detection}. 
 The third step is stitching them into a panoramic video according to the spatial-temporal information, as described in Sec \ref{ssec:stitching}.
@@ -231,8 +228,8 @@ Fig. \ref{fig:p8} illustrates the method we proposed.
 \begin{figure}[!htpb]
 \centering
 \includegraphics[scale=0.22]{picture41.png}
-\caption{First the spherically warped frame will be detected by HED \cite{xie2015holistically}, and the edge detected frame mesh into $m \times n$ grids, then the overlapped region calculated its homegraphy matrix in grid $i$.
-Finally output a new frame combined with two edge detected frames. (a) depicts the spherically
+\caption{The spherically warped frame will be detected by HED \cite{xie2015holistically} firstly, and the edge detected frame mesh into $m \times n$ grids, then the overlapped region calculated its homegraphy matrix in grid $i$.
+Finally, a new frame combined with two edge detected frames will be produced. (a) depicts the spherically
 warped frame, (b) shows the grids in each frames, (c) shows the new edge produced by (b).}
 \label{fig:p8}
 \end{figure}
@@ -242,9 +239,9 @@ warped frame, (b) shows the grids in each frames, (c) shows the new edge produce
 
 Using the method we proposed in Sec. \ref{ssec:Pre-prepared} and Sec. \ref{ssec:edge-detection}, the structure of buildings in the video can be preserved. However, when there is a moving object
 through the overlapped region, there may exist ghosts in the panoramic video. 
-In the overlapping region, background is stitched using the method we proposed in Sec. \ref{ssec:edge-detection}, but not surprisingly, 
-foreground objects have ghost artifacts, especially when there is an object moving through the overlapped region. To stitch the
-two videos seamlessly, we adopt the overlaying strategy as in \cite{he2016parallax}. Firstly, we search a seam in the overlapping region according to our homegraphy matrices which was calculated in \ref{ssec:edge-detection}.
+In the panoramic frame, static objects can be stitched very well using the method we proposed in Sec. \ref{ssec:edge-detection}, 
+but ghosts will be produced when there is an object moving through the overlapped region. To stitch the videos seamlessly,
+we adopt the overlaying strategy as in \cite{he2016parallax}. Firstly, we search a seam in the overlapping region according to our homegraphy matrices which was calculated in \ref{ssec:edge-detection}.
 Secondly, use $\widetilde{g}_{i0}$ as the original gradient of pixel $p_i$ in the present seam, and use $\widetilde{g}_{it}$ as the gradient of pixel $p_i$ in time $t$. To calculate whether the gradient
 of pixels have a big change, we use the following rule:
 \begin{equation}
@@ -272,12 +269,12 @@ Because the overlapped region is very small, lots of method we listed in Sec. \r
 The compared methods include APAP and commercial software AutoPano. The video data used in APAP method in this paper was pre-processed. We compare the result as image stitching on each frame firstly.
 We randomly select one frame on image stitching. Fig. \ref{fig:pic17} shows the result of APAP, AutoPano and ours. 
 From Fig. \ref{fig:pic17} we can see the result of APAP 
-destroys the structure of building severely, such as the pillar and the light. There are severe ghost around pillar and light.
+destroys the structure of building severely, such as the pillar and the light. There are severe ghosts around pillar and light.
 As for commercial software, it also can not stitch the image well, such as the pillar have ghosts and the structure of light breaks from the middle, 
 but our method keeps the structure well, and has less ghost than the others.
 
 For comparison of moving object through overlapped region, we compare the result of APAP, AutoPano and ours. Fig. \ref{fig:pic15} 
-illustrates frames where an object are moving in the overlapped region and the background remains still. 
+illustrates frames where an object is moving through the overlapped region and the background remains still. 
 We select three consecutive frames for comparison. In Fig. \ref{fig:pic15}, APAP and AutoPano have severe ghosts around the walking person in the panoramic video. 
 The man’s body is distorted in AutoPano method. However, using our proposed method, the man's body is kept well. Fig. ~\ref{fig:more1}, Fig. ~\ref{fig:more2} show more comparison of our method and the others.
 \begin{table}[!htpb]
@@ -310,9 +307,11 @@ detail in frame $t_1$, (c) enlarged views of local detail in frame $t_2$, (d) en
 In order to evaluate the performance of our algorithm, we made a user test interface. The interface shows the results of APAP, AutoPano and our method simultaneously.
 We use Mean opinion score (MOS) to evaluate the panoramic video. We use 1-10, 10 integers to represent the quality of the video, 
 1 represents the worst quality of the video, 10 represents the best quality of the video, and the method of calculating MOS is as follows:
-$$MOS=\frac{\sum^{N}_{n=1}{R_n}}{N}$$
+\begin{equation}
+{\rm{MOS}}=\frac{\sum^{N}_{n=1}{R_n}}{N}
+\end{equation}
 where $N$ stands for the number of people scoring each method and $R_n$ stands for a user's score for each type of video. We take $N=250$ in this experiment.
-In the user study, 50 users use interface to score the videos. The videos show on the interface according to the rules in which the video groups were random and the video types were random.
+In the user study, 50 users use interface to score the videos. The videos show on the interface according to the rules: (1) the video groups were random and (2) the video types were random.
 And then we calculated MOS for each method. Table \ref{tab1:table1} shows the comparison. The MOS of our method is much higher than the others.
 
 
@@ -320,8 +319,8 @@ And then we calculated MOS for each method. Table \ref{tab1:table1} shows the co
 \section{CONCLUSION}
 \label{sec:conclusion}
 
-In this paper, we proposed a new method to stitch video which have a small overlapped region. We pre-process the video data, such as calibrating the camera and projecting the video frame into spherical
-spherical coordinates. We detect the edge of each spherically warped frame and re-calculate homegraphy matrix in every grid. Using the time domain information to produce panoramic videos. 
+In this paper, we proposed a new method to stitch videos which have a small overlapped region. We pre-process the video data, such as calibrating the camera and projecting the video frame into spherical
+coordinates. We detect the edge of each spherically warped frame and re-calculate homegraphy matrix in every grid. Using the time domain information to produce panoramic videos. 
 Experimental results show that our approach achieves a better panoramic video than state-of-the-art ones. Our algorithm improves image alignment accuracy and reduces artifacts caused by
 moving objects. In the future, we would like to speed up our algorithm.
 
