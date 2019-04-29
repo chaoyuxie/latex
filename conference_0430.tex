@@ -108,7 +108,7 @@ Fig. \ref{fig:res} shows the video stitching process presented in this paper.
 
 \begin{figure*}
 \centering
-\includegraphics[scale=0.54]{picture44.png}
+\includegraphics[scale=0.54]{picture49.png}
 \caption{The pipeline of our video stitching algorithm. First, we pre-process the video data, such as calibrating the camera
 and projecting the video frame into spherical coordinates. Second, we detect the edge of each spherically
 warped frame and re-calculate
@@ -267,7 +267,7 @@ Finally the two frames are aligned according to the computed homography matrices
 
 While our edge-guided alignment process well preserves scene structures and avoids edge distortions, it does not eliminate ghosts when there is a moving object through the overlapped region.
 To stitch the two videos seamlessly, we adopt the overlaying strategy as in \cite{he2016parallax}. 
-Firstly, we search a seam in the overlapping region using graphcut algorithm \cite{boykov2004experimental}, as shown in Fig. \ref{fig:p24}(a).
+Firstly, we search a seam in the overlapping region using graphcut algorithm \cite{boykov2004experimental}, as shown in Fig. \ref{fig:p24}(b) in red line.
 %\textcolor{red}{(Add grid illustration and explain more how do you generate the seams.)} 
 Secondly, using $g_{i0}$ as the original gradient of pixel $p_i$ in the present seam, and using $g_{it}$ as the gradient of pixel $p_i$ in time $t$. To calculate whether the gradient
 of pixels have a big change, we use the following rule:
@@ -284,8 +284,8 @@ Finally, to stitch the video well, we use linear blending method.
 Fig. \ref{fig:p24} shows the method.
 \begin{figure}[h]
 \centering
-\includegraphics[scale=0.23]{picture47.png}
-\caption{(a) shows an aligned frame in green grids and the origin seam in red line, (b) shows the updating seam in red line, (c) shows the final fused image.}
+\includegraphics[scale=0.42]{picture48.png}
+\caption{(a) shows an aligned frame in green grids and the origin seam in red line (b), (c) shows the updating seam in red line, (d) shows the final fused image.}
 \label{fig:p24}
 \end{figure}
 
