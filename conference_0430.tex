@@ -265,7 +265,6 @@ Finally the two frames are aligned according to the computed homography matrices
 \subsection{Seam Updating and Stitching}
 \label{ssec:stitching}
 
-
 While our edge-guided alignment process well preserves scene structures and avoids edge distortions, it does not eliminate ghosts when there is a moving object through the overlapped region.
 To stitch the two videos seamlessly, we adopt the overlaying strategy as in \cite{he2016parallax}. 
 Firstly, we search a seam in the overlapping region using graphcut algorithm \cite{boykov2004experimental}, as shown in Fig. \ref{fig:p24}(a).
@@ -276,7 +275,8 @@ of pixels have a big change, we use the following rule:
 \textit{C}_{t}=\{p_{i}|\frac{g_{it}-g_{i0}}{g_{i0}}>\sigma\}
 \end{equation}
 where $\sigma=1.0$ in our experiments.
-If the total pixel number in $\textit{C}_t$ is bigger than $0.4N_{seam}$, there is likely an object moving through the overlapping region. Here, $N_{seam}$ is the total pixel number of the seam. 
+If the total pixel number in $\textit{C}_t$ is bigger than $0.4N_{seam}$, which means that there is likely a new object moving through the overlapping region. 
+Here, $N_{seam}$ is the total pixel number of the seam. 
 And then, the seam will be updated. We use graphcut algorithm but remove those points which are in $C_t$ to update seam at time $t$. 
 Otherwise, we continue to use the previous seam.
 %\textcolor{red}{explain how do you update the seam. Update seam of which frame? which time? }
