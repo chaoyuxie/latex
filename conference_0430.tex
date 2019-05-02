@@ -82,8 +82,8 @@ analysis, video stitching has become a hot topic in recent years.
 Most video stitching techniques \cite{zheng2008stitching, guo2016joint, Jiang_2015_CVPR_Workshops, nie2018dynamic} require videos that overlap with
 their neighboring videos by a large margin.
 Under this case, sufficient feature points can be detected and matched to compute the transformation between adjacent views.
-There are also lots of commercial softwares, such as VideoStitch Studio \cite{videostitching}, AutoPano \cite{autopano}, to composite panoramic images or videos by computing transformations between neighboring views based on feature detection and matching.
-When the overlap between adjacent views is relatively small, these methods and softwares fail to get enough feature matches, thus can not stitch the videos together.
+There are also lots of commercial software, such as VideoStitch Studio \cite{videostitching}, AutoPano \cite{autopano}, to composite panoramic images or videos by computing transformations between neighboring views based on feature detection and matching.
+When the overlap between adjacent views is relatively small, these methods and software fail to get enough feature matches, thus can not stitch the videos together.
 
 %For example, a typical scenario we envision is: six cameras fixed on a tripod. 
 Fig. \ref{fig:equipment} shows a typical panorama capturing device that consists of six cameras. 
@@ -96,7 +96,7 @@ In this paper, we propose an edge-guided approach to stitch videos that have sma
 %
 Our algorithm first projects the input videos into spherical coordinate systems based on pre-calibrated camera intrinsics. 
 Then, scene edges are extracted and guide according to the edge we mesh these video into grids frame by frame.
-And calculating the homegraphy matrix of each gird. Finally, we update seam and produce a panoramic video.
+And calculating the homography matrix of each gird. Finally, we update seam and produce a panoramic video.
 Fig. \ref{fig:res} shows the video stitching process presented in this paper.
 
 \begin{figure}[t]
@@ -112,7 +112,7 @@ Fig. \ref{fig:res} shows the video stitching process presented in this paper.
 \caption{The pipeline of our video stitching algorithm. First, we pre-process the video data, such as calibrating the camera
 and projecting the video frame into spherical coordinates. Second, we detect the edge of each spherically
 warped frame and re-calculate
-homegraphy matrix in every grid. Third, updating seam and stitching the videos to produce a panoramic video.}
+homography matrix in every grid. Third, updating seam and stitching the videos to produce a panoramic video.}
 \label{fig:res}
 \end{figure*}
 
@@ -124,8 +124,8 @@ In this section, we briefly review the most related works in image stitching and
 
 {\bf Image Stitching.} Image stitching is a well-studied, yet still active research 
 area \cite{paragios2006handbook, brown2007automatic,hartley2003multiple,lin2011smoothly, chang2014shape, zaragoza2013projective,lin2015adaptive,zhang2014parallax, gao2013seam, agarwala2004interactive,gao2011constructing}. 
-Early methods adopt a single homegraphy to align images.
-However, a single homegraphy is valid only when the cameras' optical center are aligned and only rotations exist between cameras, or the captured scene is planar in 3D \cite{hartley2003multiple}. 
+Early methods adopt a single homography to align images.
+However, a single homography is valid only when the cameras' optical center are aligned and only rotations exist between cameras, or the captured scene is planar in 3D \cite{hartley2003multiple}. 
 Otherwise, there is parallax between the images, and artifacts such as structure distortion and ghosts occur in the composition. 
 To solve the parallex problem, two types of stitching strategies have been proposed, including warp-based approaches \cite{lin2011smoothly, chang2014shape, zaragoza2013projective} and seam-driven approaches \cite{zhang2014parallax, gao2013seam, agarwala2004interactive}. 
 In the warp-based category, 
@@ -142,7 +142,7 @@ proposed photomontage that composites a photograph by
 cutting and stitching multiple photographs seamlessly \cite{agarwala2004interactive},
 while Zhang and Liu looked for a homography that leads to a
 minimum energy seam to stitch large-parallax images \cite{zhang2014parallax}.
-In addition, several freewares and commercial softwares, such as AutoStitch, Microsoft’s Image Compositing Editor, and Adobe's Photoshop CS6 mosaicing feature, are available for performing image stitching.
+In addition, several freewares and commercial software, such as AutoStitch, Microsoft’s Image Compositing Editor, and Adobe's Photoshop CS6 mosaicing feature, are available for performing image stitching.
 
 
 
@@ -175,7 +175,7 @@ We　calibrate each camera offline to get the intrinsic parameters of each camer
 Given $N$ videos with fixed order, we first rectify each video into a common image plane to remove tangential and radial distortions.
 Then we project the rectified video frames into spherical coordinate system (see details in Sec. \ref{ssec:Pre-prepared}). 
 Edges are extracted from each frame.
-Each frame is divided into regular grids and we calculate homegraphy matrix in each grid. 
+Each frame is divided into regular grids and we calculate homography matrix in each grid. 
 Then matching the points in overlapped region which is described in Sec. \ref{ssec:edge-detection}. 
 The third step is stitching them into a panoramic video according to the spatial-temporal information, as described in Sec \ref{ssec:stitching}.
 
@@ -229,15 +229,15 @@ For each pixel on the edges in the grid, we look for its nearest pixel on the ed
 %
 According to the obtained matching point pairs $\mathbf{a}$ to $\mathbf{a}'$ in two neighboring frames, we compute the homography $\mathbf{H} \in \mathbb{R}^{3 \times 3}$ by solving a group of linear equations 
 %Let $\textbf{a} = [i \ j]^T$ and $\textbf{a}' = [i' \ j']^T$ be matching points across overlapping frames $F_l$ and $F_r$. 
-%A projective warp or homegraphy aims to map $\textbf{a}$ to $\textbf{a}'$ following the relation:
+%A projective warp or homography aims to map $\textbf{a}$ to $\textbf{a}'$ following the relation:
 \begin{equation}
 \widetilde{\textbf{a}}' \sim \mathbf{H} \widetilde{\textbf{a}},
 \end{equation}
 where $\widetilde{\mathbf{a}}=(x,y,1)^{T}$ is the homogeneous coordinate of a 2D point $(x,y)^{T}$.  
 %According to the matrix, the points can be projected to the correct region.
 There maybe some grids where no edge is found. 
-For these grid, we calculate its homegraphy matrix according to its four neighboring grids. 
-Let $\textbf{H}_i$ be the homegraphy matrix in grid $i$.
+For these grid, we calculate its homography matrix according to its four neighboring grids. 
+Let $\textbf{H}_i$ be the homography matrix in grid $i$.
 If there is no points are detected in grid $i$, its homography matrix $\textbf{H}_{i}$ can be calculated as:
 \begin{equation}
 \textbf{H}_{i} = \frac{1}{4}\left(\textbf{H}_{il}+\textbf{H}_{ir}+\textbf{H}_{iu}+\textbf{H}_{id}\right),
@@ -246,7 +246,7 @@ where $\textbf{H}_{il}$,
 $\textbf{H}_{ir}$, 
 $\textbf{H}_{iu}$, 
 $\textbf{H}_{id}$ 
-denote four homegraphy matrices of grid 
+denote four homography matrices of grid 
 $i$.
 Fig. \ref{fig:p8} illustrates the alignment process.
 With our edge-guided image alignment, the scene structures and object boundaries are well aligned. 
@@ -278,14 +278,15 @@ where $\sigma=1.0$ in our experiments.
 If the total pixel number in $\textit{C}_t$ is bigger than $0.4N_{seam}$, which means that there is likely a new object moving through the overlapping region. 
 Here, $N_{seam}$ is the total pixel number of the seam. 
 And then, the seam will be updated. We use graphcut algorithm but remove those points which are in $C_t$ to update seam at time $t$. 
+Fig. \ref{fig:p24}(c) shows the points which are removed in yellow color.
 Otherwise, we continue to use the previous seam.
 %\textcolor{red}{explain how do you update the seam. Update seam of which frame? which time? }
 Finally, to stitch the video well, we use linear blending method.
 Fig. \ref{fig:p24} shows the method.
 \begin{figure}[h]
 \centering
-\includegraphics[scale=0.42]{picture48.png}
-\caption{(a) shows an aligned frame in green grids and the origin seam in red line (b), (c) shows the updating seam in red line, (d) shows the final fused image.}
+\includegraphics[scale=0.42]{picture50.png}
+\caption{(a) shows an aligned frame in green grids and the origin seam in red line (b), (c) shows the updating seam in red line and removed points in yellow color, (d) shows the final fused image.}
 \label{fig:p24}
 \end{figure}
 
@@ -350,7 +351,7 @@ And then we calculated MOS for each method. Table \ref{tab1:table1} shows the co
 \label{sec:conclusion}
 
 In this paper, we proposed a new method to stitch videos which have a small overlapped region. We pre-process the video data, such as calibrating the camera and projecting the video frame into spherical
-coordinates. We detect the edge of each spherically warped frame and re-calculate homegraphy matrix in every grid. Using the time domain information to produce panoramic videos. 
+coordinates. We detect the edge of each spherically warped frame and re-calculate homography matrix in every grid. Using the time domain information to produce panoramic videos. 
 Experimental results show that our approach achieves a better panoramic video than state-of-the-art ones. Our algorithm improves image alignment accuracy and reduces artifacts caused by
 moving objects. In the future, we would like to speed up our algorithm.
 
