@@ -221,7 +221,7 @@ Since neighboring videos overlap in a very small area, it is not easy to find en
 In order to resolve the ambiguity in feature matching, we propose to search for matching points along edges.
 %
 To detect primary edges in the scene, we use holistically-nested edge detection (HED) \cite{xie2015holistically}. 
-Then we divide each frame into $m \times n$ regular girds. 
+Then we divide each frame into $m \times n$ regular girds, where $m=25$ and $n=50$ in our experiments.
 %
 For each grid in the overlapped region between two neighboring frames, we compute its homography by looking for a least four pairs of feature points.
 %
