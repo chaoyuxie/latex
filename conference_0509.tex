@@ -242,7 +242,7 @@ We define left frame as $f_l$, and right frame as $f_r$,
 For each pixel on the edges in the grid of $f_l$, we look for the nearest pixel on the edges within the corresponding grid of $f_r$ as its matching point.
 %For the points on the edge of each grid in the left image, we look up the nearest neighbor on the boundary within the corresponding grid in the image on the right.
 According to the obtained matching point pairs $\mathbf{a}$ to $\mathbf{a}'$ in $f_l$ and $f_r$, 
-we compute a global warpping matrix $\mathbf{H} \in \mathbb{R}^{3 \times 3}$ by solving a group of linear equations.
+we compute a global warpping matrix $\mathbf{H} \in \mathbb{R}^{3 \times 3}$ by using direct linear transformation (DLT) method.
 \begin{equation}
 \widetilde{\textbf{a}}' \sim \mathbf{H} \widetilde{\textbf{a}},
 \end{equation}
